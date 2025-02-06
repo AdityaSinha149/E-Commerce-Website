@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom' // Import the useNavigate hook
+import { useNavigate } from 'react-router-dom'
 
 const SignIn = () => {
+    const [inputFormat, setInputFormat] = useState('text') // input type
     const [num, setNum] = useState('') // input value
-    const [prevNum, setPrevNum] = useState('') // previous number
+
+    const [prevNum, setPrevNum] = useState('') // confirmed email
+
     const [btnTxt, setBtnTxt] = useState('Continue') // button text
     const [continued, setContinued] = useState(true) // continue button and appearance
-    const [inputFormat, setInputFormat] = useState('text') // input type
-    const navigate = useNavigate() // Hook for navigation
+    
+    const navigate = useNavigate()
 
     const handleContinue = () => {
-        if (continued && num === 'mist@gmail.com') {
-            setPrevNum(num) // Set the previous number to state
+        if (continued && num==='mist@gmail.com') {
+            setPrevNum(num) // Set the email to num
             setNum('') // Clear the input field
             setBtnTxt('Sign in') // Change the button text
             setInputFormat('password') // Change the input type to password
@@ -20,8 +23,8 @@ const SignIn = () => {
         else if (continued) {
             alert('Please enter a valid email address!');
         }
-        if (!continued && num === 'wearemist') { // Correct the string comparison
-            navigate('/Homepage') // Navigate to the homepage (adjust this route based on your setup)
+        if (!continued && num==='wearemist') {
+            navigate('/Homepage')
         }
     }
 
