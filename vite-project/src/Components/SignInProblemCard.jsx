@@ -9,7 +9,7 @@ const SignInProblemCard = ({ message }) => {
           !
         </div>
         <div className="ml-3">
-          <h3 className="text-lg font-medium text-red-700">There was a problem</h3>
+          <h3 className="text-lg font-medium ">There was a problem</h3>
           <p className="text-sm text-gray-800">{message}</p>
         </div>
       </div>

@@ -51,15 +51,18 @@ const SignIn = () => {
     };
 
     return (
-        <div className="h-screen flex items-center justify-center">
-            <div className="w-96 border border-gray-300 rounded-lg p-6 shadow-md flex flex-col">
-                <h1 className="text-4xl font-semibold mb-4">Sign in</h1>
-
+        <div className="h-screen flex flex-col items-center justify-center">
+            
+            <div  className="w-96">
                 {/* Show error message if email is invalid */}
                 {emailError && continued && <SignInProblemCard message={emailError} />}
 
                 {/* Show error message if password is incorrect */}
                 {passwordError && !continued && <SignInProblemCard message={passwordError} />}
+            </div>
+            
+            <div className="w-96 border border-gray-300 rounded-lg p-6 shadow-md flex flex-col">
+                <h1 className="text-4xl font-semibold mb-4">Sign in</h1>
 
                 {!continued && (
                     <div className="flex justify-between items-center mb-4">
