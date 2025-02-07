@@ -62,12 +62,12 @@ const SignIn = () => {
             </div>
             
             <div className="w-96 border border-gray-300 rounded-lg p-6 shadow-md flex flex-col">
-                <h1 className="text-4xl font-semibold mb-4">Sign in</h1>
+                <h1 className="text-4xl font-semibold mb-5">Sign in</h1>
 
                 {!continued && (
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-start space-x-1 items-center mb-2.5">
                         <h3 className="text-md">{prevNum}</h3>
-                        <button onClick={handleReset} className="text-blue-600 text-sm hover:underline">
+                        <button onClick={handleReset} className=" text-cyan-700 text-sm hover:underline">
                             Change
                         </button>
                     </div>
@@ -76,7 +76,7 @@ const SignIn = () => {
                 <div className="flex justify-between items-center mb-2">
                     <h3 className="font-bold">{askingText}</h3>
                     {!continued && (
-                        <button className="text-blue-600 text-sm hover:underline">
+                        <button className="text-cyan-700 text-sm hover:underline">
                             Forgot password?
                         </button>
                     )}
