@@ -30,7 +30,7 @@ const SignIn = () => {
 
     return (
         <div>
-            <h1>Sign in</h1>
+            <h1 >Sign in</h1>
             {!continued && <h3>{prevNum}</h3>} {/* Display previous number */}
             <h3><b>Email or mobile number</b></h3>
             <input 
