@@ -1,47 +1,106 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SignInProblemCard from '../Components/SignInProblemCard';
 
 const SignIn = () => {
-    const [inputFormat, setInputFormat] = useState('text') // input type
-    const [num, setNum] = useState('') // input value
+    const [inputFormat, setInputFormat] = useState('text');
+    const [num, setNum] = useState('');
+    const [askingText, setAskingText] = useState('Email or mobile number');
+    const [prevNum, setPrevNum] = useState('');
+    const [btnTxt, setBtnTxt] = useState('Continue');
+    const [continued, setContinued] = useState(true);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
-    const [prevNum, setPrevNum] = useState('') // confirmed email
-
-    const [btnTxt, setBtnTxt] = useState('Continue') // button text
-    const [continued, setContinued] = useState(true) // continue button and appearance
-    
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleContinue = () => {
-        if (continued && num==='mist@gmail.com') {
-            setPrevNum(num) // Set the email to num
-            setNum('') // Clear the input field
-            setBtnTxt('Sign in') // Change the button text
-            setInputFormat('password') // Change the input type to password
-            setContinued(false) // Set the continued state to false
+        // Reset errors
+        setEmailError('');
+        setPasswordError('');
+
+        if (continued) {
+            if (num !== 'mist@gmail.com') {
+                setEmailError('We cannot find an account with that email address or mobile number.');
+                return;
+            }
+            setPrevNum(num);
+            setNum('');
+            setBtnTxt('Sign in');
+            setInputFormat('password');
+            setAskingText('Password');
+            setContinued(false);
+        } else {
+            if (num !== 'wearemist') {
+                setPasswordError('Your password is incorrect.');
+                return;
+            }
+            navigate('/Homepage');
         }
-        else if (continued) {
-            alert('Please enter a valid email address!');
-        }
-        if (!continued && num==='wearemist') {
-            navigate('/Homepage')
-        }
-    }
+    };
+
+    const handleReset = () => {
+        setInputFormat('text');
+        setNum('');
+        setPrevNum('');
+        setBtnTxt('Continue');
+        setAskingText('Email or mobile number');
+        setContinued(true);
+        setEmailError('');
+        setPasswordError('');
+    };
 
     return (
-        <div>
-            <h1 >Sign in</h1>
-            {!continued && <h3>{prevNum}</h3>} {/* Display previous number */}
-            <h3><b>Email or mobile number</b></h3>
-            <input 
-                type={inputFormat} 
-                value={num} 
-                onChange={(e) => setNum(e.target.value)} // Handle input changes
-            />
-            <button onClick={handleContinue}>{btnTxt}</button> {/* Button text changes based on state */}
-            {continued && <p>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</p>} {/* Show the conditions */}
-        </div>
-    )
-}
+        <div className="h-screen flex items-center justify-center">
+            <div className="w-96 border border-gray-300 rounded-lg p-6 shadow-md flex flex-col">
+                <h1 className="text-4xl font-semibold mb-4">Sign in</h1>
 
-export default SignIn
+                {/* Show error message if email is invalid */}
+                {emailError && continued && <SignInProblemCard message={emailError} />}
+
+                {/* Show error message if password is incorrect */}
+                {passwordError && !continued && <SignInProblemCard message={passwordError} />}
+
+                {!continued && (
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-md">{prevNum}</h3>
+                        <button onClick={handleReset} className="text-blue-600 text-sm hover:underline">
+                            Change
+                        </button>
+                    </div>
+                )}
+
+                <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-bold">{askingText}</h3>
+                    {!continued && (
+                        <button className="text-blue-600 text-sm hover:underline">
+                            Forgot password?
+                        </button>
+                    )}
+                </div>
+
+                <input 
+                    type={inputFormat} 
+                    value={num} 
+                    onChange={(e) => setNum(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-400 rounded-md mb-4"
+                />
+
+                <button 
+                    onClick={handleContinue}
+                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-md font-medium"
+                >
+                    {btnTxt}
+                </button>
+
+                {continued && (
+                    <p className="text-xs text-gray-600 mt-4">
+                        By continuing, you agree to our Conditions of Use and Privacy Notice.
+                    </p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default SignIn;
