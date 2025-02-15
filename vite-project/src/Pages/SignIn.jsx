@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SignInProblemCard from '../Components/SignInProblemCard';
+import { NumContext } from '../Contexts/NumContext';
 
 const SignIn = () => {
     const [inputFormat, setInputFormat] = useState('text');
-    const [num, setNum] = useState('');
+    const { num, setNum, prevNum, setPrevNum } = useContext(NumContext); 
     const [askingText, setAskingText] = useState('Email or mobile number');
-    const [prevNum, setPrevNum] = useState('');
     const [btnTxt, setBtnTxt] = useState('Continue');
     const [continued, setContinued] = useState(true);
     const [emailError, setEmailError] = useState('');
@@ -22,6 +22,7 @@ const SignIn = () => {
         if (continued) {
             if (num !== 'mist@gmail.com') {
                 setEmailError('We cannot find an account with that email address or mobile number.');
+                setNum('');
                 return;
             }
             setPrevNum(num);
@@ -52,15 +53,15 @@ const SignIn = () => {
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">
-            
-            <div  className="w-96">
+
+            <div className="w-96">
                 {/* Show error message if email is invalid */}
                 {emailError && continued && <SignInProblemCard message={emailError} />}
 
                 {/* Show error message if password is incorrect */}
                 {passwordError && !continued && <SignInProblemCard message={passwordError} />}
             </div>
-            
+
             <div className="w-96 border border-gray-300 rounded-lg p-6 shadow-md flex flex-col">
                 <h1 className="text-4xl font-semibold mb-5">Sign in</h1>
 
@@ -82,14 +83,14 @@ const SignIn = () => {
                     )}
                 </div>
 
-                <input 
-                    type={inputFormat} 
-                    value={num} 
+                <input
+                    type={inputFormat}
+                    value={num}
                     onChange={(e) => setNum(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-400 rounded-md mb-4"
                 />
 
-                <button 
+                <button
                     onClick={handleContinue}
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-md font-medium"
                 >
